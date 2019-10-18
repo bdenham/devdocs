@@ -5,7 +5,6 @@ group: "Fundamentals of Magento 2 Development"
 title: "How to Add a New Product Attribute"
 thumbnail: "fundamentals/thumbs/add-attribute.png"
 menu_order: 1
-github_link:
 ---
 
 Adding a product attribute is one of the most popular operations in both Magento 1 and Magento 2.
@@ -15,18 +14,18 @@ This is quite a broad topic, but in this video we will discuss the simple proces
 
 For this exercise, assume that the sample data set is installed.
 
-* We will add an attribute called clothing_material with the possible values: Cotton, Leather, Silk, Denim, Fur, and Wool.
-* We will make this attribute visible on the product view page, in bold text.
-* We will assign it to the Default attribute set and add a restriction that any “bottom” clothing, like slacks, cannot be the material Fur.
+*  We will add an attribute called clothing_material with the possible values: Cotton, Leather, Silk, Denim, Fur, and Wool.
+*  We will make this attribute visible on the product view page, in bold text.
+*  We will assign it to the Default attribute set and add a restriction that any “bottom” clothing, like slacks, cannot be the material Fur.
 
 We will need to take the following steps to add the new attribute:
 
 1. Create a new module.
-2. Add an InstallData script.
-3. Add a source model.
-4. Add a backend model.
-5. Add a frontend model.
-6. Execute the InstallData script and verify that it works.
+1. Add an InstallData script.
+1. Add a source model.
+1. Add a backend model.
+1. Add a frontend model.
+1. Execute the InstallData script and verify that it works.
 
 Let’s go through each step.
 
@@ -34,10 +33,16 @@ Let’s go through each step.
 
 As Magento is modular based, we start the process by creating a new module called `Learning_ClothingMaterial`.
 
+```bash
+cd <magento2_root>/app/code
 ```
-$ cd <magento2_root>/app/code
-$ mkdir Learning
-$ mkdir Learning/ClothingMaterial
+
+```bash
+mkdir Learning
+```
+
+```bash
+mkdir Learning/ClothingMaterial
 ```
 
 Now, create two files:
@@ -45,7 +50,8 @@ Now, create two files:
 `etc/module.xml`
 
 {% collapsible Show code %}
-{% highlight xml %}
+
+```xml
 <?xml version="1.0"?>
 <!--
 /**
@@ -58,15 +64,16 @@ xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
   <module name="Learning_ClothingMaterial" setup_version="0.0.1">
   </module>
 </config>
-{% endhighlight %}
-{% endcollapsible %}
+```
 
-<br/>
+{% endcollapsible %}
 
 `registration.php`
 
 {% collapsible Show code %}
-{% highlight php startinline=true %}
+
+```php?start_inline=1
+<?php
 /**
  * Copyright © 2016 Magento. All rights reserved.
  * See COPYING.txt for license details.
@@ -76,7 +83,8 @@ xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
     'Learning_ClothingMaterial',
     __DIR__
 );
-{% endhighlight %}
+```
+
 {% endcollapsible %}
 
 ## Step 2 Create an InstallData script
@@ -88,8 +96,9 @@ Therefore we use InstallData instead of InstallSchema.
 Create the file `app/code/Learning/ClothingMaterial/Setup/InstallData.php`:
 
 {% collapsible Show code %}
-{% highlight php startinline=true %}
 
+```php?start_inline=1
+<?php
 /**
  * Copyright © 2016 Magento. All rights reserved.
  * See COPYING.txt for license details.
@@ -114,7 +123,7 @@ class InstallData implements InstallDataInterface
 
     /**
      * Init
-     * @param CategorySetupFactory $categorySetupFactory
+     * @param EavSetupFactory $eavSetupFactory
      */
     public function __construct(\Magento\Eav\Setup\EavSetupFactory $eavSetupFactory)
     {
@@ -154,10 +163,9 @@ class InstallData implements InstallDataInterface
         );
     }
 }
-{% endhighlight %}
-{% endcollapsible %}
+```
 
-<br/>
+{% endcollapsible %}
 
 Let’s take a minute to look at the code.
 
@@ -177,16 +185,16 @@ To see all the mappings, you should look at the `\Magento\Catalog\Model\Resource
 
 For now, we’ll just quickly go through most important ones:
 
-* **group:** Means that we add an attribute to the attribute group “General”, which is present in all attribute sets.
-* **type:** varchar means that the values will be stored in the catalog_eav_varchar table.
-* **label:** A label of the attribute (that is, how it will be rendered in the backend and on the frontend).
-* **source/frontend/backend:** Special classes associated with the attribute:
-  * **source model:** provides a list of options
-  * **frontend:** defines how it should be rendered on the frontend
-  * **backend:** allows you to perform certain actions when an attribute is loaded or saved. In our example, it will be validation.
-* **Global:** defines the scope of its values (global, website, or store)
-* **visible_on_front:** A flag that defines whether an attribute should be shown on the “More Information” tab on the frontend
-* **is_html_allowed_on_front:** Defines whether an attribute value may contain HTML
+*  **group:** Means that we add an attribute to the attribute group “General”, which is present in all attribute sets.
+*  **type:** varchar means that the values will be stored in the catalog_eav_varchar table.
+*  **label:** A label of the attribute (that is, how it will be rendered in the backend and on the frontend).
+*  **source/frontend/backend:** Special classes associated with the attribute:
+   *  **source model:** provides a list of options
+   *  **frontend:** defines how it should be rendered on the frontend
+   *  **backend:** allows you to perform certain actions when an attribute is loaded or saved. In our example, it will be validation.
+*  **Global:** defines the scope of its values (global, website, or store)
+*  **visible_on_front:** A flag that defines whether an attribute should be shown on the “More Information” tab on the frontend
+*  **is_html_allowed_on_front:** Defines whether an attribute value may contain HTML
 
 ## Step 3: Add a source model
 
@@ -195,8 +203,9 @@ Next, we need to create the source model:
 `app/code/Learning/ClothingMaterial/Model/Attribute/Source/Material.php`
 
 {% collapsible Show code %}
-{% highlight php startinline=true %}
 
+```php?start_inline=1
+<?php
 /**
  * Copyright © 2016 Magento. All rights reserved.
  * See COPYING.txt for license details.
@@ -225,11 +234,9 @@ class Material extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
         return $this->_options;
     }
 }
+```
 
-{% endhighlight %}
 {% endcollapsible %}
-
-<br/>
 
 As the name implies, the `getAllOptions` method provides a list of all available options.
 
@@ -240,8 +247,9 @@ Now we will create a backend model:
 `app/code/Learning/ClothingMaterial/Model/Attribute/Backend/Material.php`
 
 {% collapsible Show code %}
-{% highlight php startinline=true %}
 
+```php?start_inline=1
+<?php
 /**
  * Copyright © 2016 Magento. All rights reserved.
  * See COPYING.txt for license details.
@@ -268,11 +276,9 @@ class Material extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBacke
         return true;
     }
 }
+```
 
-{% endhighlight %}
 {% endcollapsible %}
-
-<br/>
 
 In our example, we implement only the `validate()` method.
 
@@ -288,7 +294,9 @@ Make sure to check the `eav_attribute_set` table for the right ID.
 And finally, we create a frontend model to make our value bold:
 
 {% collapsible Show code %}
-{% highlight php startinline=true %}
+
+```php?start_inline=1
+<?php
 namespace Learning\ClothingMaterial\Model\Attribute\Frontend;
 
 class Material extends \Magento\Eav\Model\Entity\Attribute\Frontend\AbstractFrontend
@@ -299,10 +307,9 @@ class Material extends \Magento\Eav\Model\Entity\Attribute\Frontend\AbstractFron
         return "<b>$value</b>";
     }
 }
-{% endhighlight %}
-{% endcollapsible %}
+```
 
-<br/>
+{% endcollapsible %}
 
 As with the backend model, this is also a very simple class.
 
@@ -310,9 +317,12 @@ As with the backend model, this is also a very simple class.
 
 Now we can run our code and check the results:
 
+```bash
+cd <magento2_root>
 ```
-$ cd <magento2_root>
-$ php bin/magento setup:upgrade
+
+```bash
+php bin/magento setup:upgrade
 ```
 
 After you run this, the new attribute should have been added to the database.

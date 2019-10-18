@@ -1,15 +1,6 @@
 ---
-layout: default
-group: config-guide
-subgroup: 07_conf
+group: configuration-guide
 title: .gitignore reference
-menu_title: .gitignore reference
-menu_order: 5600
-menu_node:
-level3_menu_node: level3child
-level3_subgroup: config-ref
-version: 2.2
-github_link: config-guide/prod/config-reference-gitignore.md
 functional_areas:
   - Configuration
   - System
@@ -18,13 +9,11 @@ functional_areas:
 
 This reference shows suggested `.gitignore` files to use in a development system and in a build or production system.
 
-
-
 ## .gitignore for development
 We recommend you use the `.gitignore` provided with Magento in a development system with the following changes&mdash;comment out the following so they are included in source control:
 
-*	`pub/media/*`
-*	`pub/media/wysiwyg/*.*`
+*  `pub/media/*`
+*  `pub/media/wysiwyg/*.*`
 
 {% collapsible Show `.gitignore` for development %}
 
@@ -93,17 +82,17 @@ atlassian*
 
 {% endcollapsible %}
 
-For reference, here is a [link to the latest Magento `.gitignore`](https://raw.githubusercontent.com/magento/magento2/2.2/.gitignore){:target="_blank"}
+For reference, here is a [link to the latest Magento `.gitignore`](https://raw.githubusercontent.com/magento/magento2/2.2/.gitignore)
 
 ## .gitignore for build and production
 You should use the same `.gitignore` in both your build and production systems so they have the same files in source control.
 
 Changes compared to the default `.gitignore`:
 
-*	The `/pub/media/*.*` directory is included in source control
-*	The `/pub/media/wysiwyg` directory is included in source control
-*	The `/pub/static/*.*` directory is included in source control
-*	The `/generated` directory and subdirectories are included in source control
+*  The `/pub/media/*.*` directory is included in source control
+*  The `/pub/media/wysiwyg` directory is included in source control
+*  The `/pub/static/*.*` directory is included in source control
+*  The `/generated` directory and subdirectories are included in source control
 
 {% collapsible Show .gitignore for build and production %}
 

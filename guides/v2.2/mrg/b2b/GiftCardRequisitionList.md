@@ -1,12 +1,9 @@
 ---
-layout: default
-group: mrg
+group: module-reference-guide
 subgroup: 30_B2B
 title: Magento_GiftCardRequisitionList module
 menu_title: GiftCardRequisitionList
 menu_order: 120
-version: 2.2
-github_link: mrg/b2b/GiftCardRequisitionList.md
 functional_areas:
   - B2B
 ---
@@ -17,9 +14,9 @@ The `Magento_GiftCardRequisitionList` module enables gift cards to be displayed 
 
 The `Magento_GiftCardRequisitionList` module provides the following features:
 
-* Display gift cards in a requisition list.
+*  Display gift cards in a requisition list.
 
-* Add gift cards to cart from a requisition list.
+*  Add gift cards to cart from a requisition list.
 
 ## Installation details
 
@@ -27,8 +24,8 @@ The `Magento_GiftCardRequisitionList` module has a dependency on the `Magento_Re
 
 ## Structure
 
-[Learn about a typical file structure for a Magento 2 module]({{page.baseurl}}extension-dev-guide/build/module-file-structure.html).
+[Learn about a typical file structure for a Magento 2 module]({{ page.baseurl }}/extension-dev-guide/build/module-file-structure.html).
 
 ## Additional information
 
-You can track [backward incompatible changes made in a Magento B2b mainline after the Magento 2.2 release]({{page.baseurl}}release-notes/changes/b2b_changes.html).
+You can track [backward incompatible changes made in a Magento B2b mainline after the Magento 2.2 release]({{ page.baseurl }}/release-notes/changes/b2b_changes.html).

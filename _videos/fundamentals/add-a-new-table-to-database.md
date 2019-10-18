@@ -5,47 +5,50 @@ group: "Fundamentals of Magento 2 Development"
 title: "How to Add a New Table to a Database"
 thumbnail: "fundamentals/thumbs/add-table.png"
 menu_order: 0
-github_link:
 ---
 
-Magento 2 has a special mechanism which allows you to create database tables, modify existing ones,and even add some data into them(like setup data, which has to be added when a module is installed).
+Magento 2 has a special mechanism that enables you to create database tables, modify existing ones, and even add some data into them (like setup data, which has to be added when a module is installed).
 This mechanism allows those changes to be transferable between different installations.
 
-The key concept is that,instead of doing manual SQL operations that you have to do again and again when reinstalling the system, developers create an install (or upgrade) script that contains the data.
-The script will be executed every time a module is installed.
+The key concept is that, instead of doing manual SQL operations that you have to do again and again when reinstalling the system, developers create an install (or upgrade) script that contains the data.
+The script runs every time a module is installed.
 
-Magento 2 has four types of such scripts: InstallSchema, InstallData, UpgradeSchema and UpgradeData.
-The install scripts are executed only once, while the upgrade scripts are executed every time the module's version get changed.
+Magento 2 has four types of such scripts: InstallSchema, InstallData, UpgradeSchema, and UpgradeData.
+The install scripts run only once, while the upgrade scripts are executed every time the module's version get changed.
 
 To look at all four script types, we’ll complete the following greeting page tasks:
 
-* Create a `greeting_message` table with the columns greeting_id and message.
-* Add two records: “Happy New Year”, “Happy Holidays”.
-* Next, modify the table by adding another field, “season”, to which we add the records “Happy Thanksgiving” and “Fall'”.
-* Update the types for the first and second records.
+*  Create a `greeting_message` table with the columns greeting_id and message.
+*  Add two records: “Happy New Year” and “Happy Holidays”.
+*  Modify the table by adding another field, “season”, to which we add the records “Happy Thanksgiving” and “Fall'”.
+*  Update the types for the first and second records.
 
 The steps we need to take to accomplish these tasks are:
 
 1. Create a new module.
-2. Create an InstallSchema script.
-3. Create an InstallData script.
-4. Add a new module and verify that a table with the data was created.
-5. Create an UpgradeSchema script.
-6. Create an UpgradeData script.
-7. Run the upgrade scripts and verify that the table has changed.
-
-Let’s go through each step.
+1. Create an InstallSchema script.
+1. Create an InstallData script.
+1. Add a new module and verify that a table with the data was created.
+1. Create an UpgradeSchema script.
+1. Create an UpgradeData script.
+1. Run the upgrade scripts and verify that the table has changed.
 
 ## Step 1: Create a new module
 
-We will create a new module called `Learning_GreetingMessage`.
+Create a new module called `Learning_GreetingMessage`.
 
-Go into the `app/code` folder and create the folders `Learning` and `Learning/GreetingMessage`:
+Navigate to the `app/code` folder and create the folders `Learning` and `Learning/GreetingMessage`:
 
+```bash
+cd <magento2_root>/app/code
 ```
-$ cd <magento2_root>/app/code
-$ mkdir Learning
-$ mkdir Learning/GreetingMessage
+
+```bash
+mkdir Learning
+```
+
+```bash
+mkdir Learning/GreetingMessage
 ```
 
 Now create two files:
@@ -53,7 +56,9 @@ Now create two files:
 `Learning/GreetingMessage/registration.php`
 
 {% collapsible Show code %}
-{% highlight php startinline=true %}
+
+```php?start_inline=1
+<?php
 /**
 * Copyright © 2016 Magento. All rights reserved.
 * See COPYING.txt for license details.
@@ -64,15 +69,15 @@ Now create two files:
   'Learning_GreetingMessage',
   __DIR__
 );
-{% endhighlight %}
-{% endcollapsible %}
+```
 
-<br/>
+{% endcollapsible %}
 
 `Learning/GreetingMessage/etc/module.xml`
 
 {% collapsible Show code %}
-{% highlight xml %}
+
+```xml
 <?xml version="1.0"?>
 <!--
 /**
@@ -84,22 +89,28 @@ xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
   <module name="Learning_GreetingMessage" setup_version="0.0.1">
   </module>
 </config>
-{% endhighlight %}
+```
+
 {% endcollapsible %}
 
 ## Step 2: Create an InstallSchema script
 
-To create an InstallSchema script, go into the `app/code/Learning/GreetingMessage` folder and create a `Setup` folder.
+To create an InstallSchema script, navigate to the `app/code/Learning/GreetingMessage` folder and create a `Setup` folder.
 
-```
-$ cd <magento2_root>/app/code/Learning/GreetingMessage
-$ mkdir Setup
+```bash
+cd <magento2_root>/app/code/Learning/GreetingMessage
 ```
 
-Now create the file `Setup/InstallSchema.php`
+```bash
+mkdir Setup
+```
+
+Create the file `Setup/InstallSchema.php`.
 
 {% collapsible Show code %}
-{% highlight php startinline=true %}
+
+```php?start_inline=1
+<?php
 /**
 * Copyright © 2016 Magento. All rights reserved.
 * See COPYING.txt for license details.
@@ -143,7 +154,8 @@ class InstallSchema implements InstallSchemaInterface
           $setup->getConnection()->createTable($table);
       }
 }
-{% endhighlight %}
+```
+
 {% endcollapsible %}
 
 Let’s take a minute to look at the code.
@@ -152,17 +164,19 @@ The InstallSchema files are all very typical.
 The main code is located in the `install()` method, which has a `$setup` parameter.
 This is a key parameter, because it gives access to the `Connection()` object that allows database manipulations.
 
-The connection is an instance of `Magento\Framework\DB\Adapter\Pdo\Mysql` class.
+The connection is an instance of the `Magento\Framework\DB\Adapter\Pdo\Mysql` class.
 
 Magento uses DDL (Data Definition Language) to manipulate the database.
 You can find various examples of DDL in the Magento 2 core code.
 
 ## Step 3: Create an InstallData script
 
-Now let’s create the `Setup/InstallData.php` file:
+Let’s create the `Setup/InstallData.php` file:
 
 {% collapsible Show code %}
-{% highlight php startinline=true %}
+
+```php
+<?php
 /**
  * Copyright © 2016 Magento. All rights reserved.
  * See COPYING.txt for license details.
@@ -193,7 +207,7 @@ class InstallData implements InstallDataInterface
            */
           $data = [
               ['message' => 'Happy New Year'],
-              ['message' => 'Marry Christams']
+              ['message' => 'Merry Christmas']
           ];
           foreach ($data as $bind) {
               $setup->getConnection()
@@ -201,24 +215,27 @@ class InstallData implements InstallDataInterface
           }
     }
 }
+```
 
-{% endhighlight %}
 {% endcollapsible %}
 
 ## Step 4: Add a new module and verify that a table with data was created
 
-Now it is time to run the Install scripts and verify that a table with the initial data is there, so we’ll run the `setup:upgrade` script.
+Run the `setup:upgrade` script to verify that a table with the initial data is there:
 
+```bash
+cd <magento2_root>
 ```
-$ cd <magento2_root>
-$ php bin/magento setup:upgrade
+
+```bash
+php bin/magento setup:upgrade
 ```
 
 You should see a long list of modules that contain `Learning_GreetingMessage`.
 
-Now let’s connect to the database: `mysql -u<user> -p<password> <database>`
+Connect to the database: `mysql -u<user> -p<password> <database>`.
 
-```
+```terminal
 SHOW TABLES LIKE “%greeting%”
 
 +------------------------------------+
@@ -239,12 +256,11 @@ SELECT * FROM greeting_message;
 
 ### Check that the table and data are there
 
-How does this work?
 When you create a new module and run the `bin/magento setup:upgrade` script, Magento checks the codebase to see if there are modules that were not installed.
 If it finds any, it checks whether there are any install scripts and if so, runs them.
-After that, Magento updates the table setup_module and puts information about the module and its version there:
+Magento then updates the table `setup_module` and puts information about the module and its version there:
 
-```
+```terminal
 SELECT * FROM setup_module WHERE module='Learning_GreetingMessage';
 
 +--------------------------+----------------+--------------+
@@ -264,17 +280,16 @@ To see how the upgrade scripts work, we’ll add some data to the database.
 
 First, change the version in the `etc/module.xml` file to 0.0.2:
 
-```
+```xml
 <module name="Learning_GreetingMessage" setup_version="0.0.2">
 ```
-
-<br/>
 
 Then create the file `Setup/UpgradeSchema.php`:
 
 {% collapsible Show code %}
-{% highlight php startinline=true %}
 
+```php?start_inline=1
+<?php
 /**
  * Copyright © 2016 Magento. All rights reserved.
  * See COPYING.txt for license details.
@@ -313,20 +328,23 @@ class UpgradeSchema implements UpgradeSchemaInterface
         $setup->endSetup();
     }
 }
-{% endhighlight %}
+```
+
 {% endcollapsible %}
 
-Note the “version_compare” line.
+Review the “version_compare” line.
 As described earlier, the UpgradeScript will be executed every time the version in `module.xml` has changed.
 So we only want the current version upgrade script to execute, and not previous upgrades.
 That’s why we put upgrades into “if” clauses.
 
 ## Step 6: Create the UpgradeData script
 
-Now we’ll create the file `Setup/UpgradeData.php`:
+To create the `Setup/UpgradeData.php` file:
 
 {% collapsible Show code %}
-{% highlight php startinline=true %}
+
+```php?start_inline=1
+<?php
 /**
  * Copyright © 2016 Magento. All rights reserved.
  * See COPYING.txt for license details.
@@ -356,7 +374,7 @@ class UpgradeData implements UpgradeDataInterface
         ) {
             $table = $setup->getTable('greeting_message');
             $setup->getConnection()
-                ->insertForce($table, ['message' => 'Happy Thanksgiving, 'season' => 'fall']);
+                ->insertForce($table, ['message' => 'Happy Thanksgiving', 'season' => 'fall']);
 
             $setup->getConnection()
                 ->update($table, ['season' => 'winter'], 'greeting_id IN (1,2)');
@@ -364,21 +382,25 @@ class UpgradeData implements UpgradeDataInterface
         $setup->endSetup();
     }
 }
-{% endhighlight %}
+```
+
 {% endcollapsible %}
 
 ## Step 7: Run the upgrade scripts and verify that the table has changed
 
-We'll run the SetupUpgrade script again:
+Run the SetupUpgrade script again:
 
+```bash
+cd <magento2_root>
 ```
-$ cd <magento2_root>
-$ php bin/magento setup:upgrade
+
+```bash
+php bin/magento setup:upgrade
 ```
 
 We can now connect to the database and verify that our changes are there:
 
-```
+```terminal
 select * from greeting_message;
 
 +-------------+--------------------+--------+

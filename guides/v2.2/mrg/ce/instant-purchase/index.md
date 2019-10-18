@@ -1,8 +1,6 @@
 ---
-layout: default
-group: mrg
+group: module-reference-guide
 title: Instant Purchase module
-github_link: mrg/ce/instant-purchase/index.md
 functional_areas:
   - Checkout
 ---
@@ -20,8 +18,8 @@ For merchant instructions, see [Instant Purchase] in the user guide.
 
 The logic found in the [Instant Purchase module] is divided into two parts:
 
-* [Instant Purchase logic]
-* [Order placement]
+*  [Instant Purchase logic]
+*  [Order placement]
 
 ### Instant Purchase logic
 
@@ -32,39 +30,38 @@ This data is updated when the relevant customer data changes, such as adding or 
 
 #### Important interfaces
 
-* [`InstantPurchaseInterface`]
+*  [`InstantPurchaseInterface`]
 
   The implementation for this interface defines Instant Purchase calculations.
   The default implementation uses several interfaces to choose the appropriate payment method, billing and shipping addresses, and shipping method.
 
-* [`PaymentTokenChooserInterface`]
-  
+*  [`PaymentTokenChooserInterface`]
+
   Responsible for choosing the stored payment method.
   The default value is the last created and saved payment method used.
 
   Instant Purchase will not use payment methods that were used but not saved.
 
-* [`ShippingAddressChooserInterface`]
+*  [`ShippingAddressChooserInterface`]
 
   Responsible for choosing the shipping address.
   The default implementation chooses the default shipping address set by the customer.
 
-* [`BillingAddressChooserInterface`]
+*  [`BillingAddressChooserInterface`]
 
   Responsible for choosing the billing address.
   The default implementation chooses the default billing address set by the customer.
 
-* [`ShippingMethodChooserInterface`]
+*  [`ShippingMethodChooserInterface`]
 
   Responsible for choosing the shipping method.
   The default implementation chooses the cheapest shipping method.
 
   Since the final price of the shipment is calculated after product and quantity are specified in the final confirmation, "Cheapest price" is displayed in the confirmation pop-up for the customer.
 
-<div class="bs-callout bs-callout-tip" markdown="1">
+{:.bs-callout .bs-callout-tip}
 The Instant Purchase capability logic is the most customizable part of the module.
 For more customization details, see the [Customization Points] section.
-</div>
 
 ### Order placement
 
@@ -108,14 +105,14 @@ To address this issue, the Instant Purchase module allows you to postpone the fi
 Use the following steps to help you implement a custom deferred shipping method:
 
 1. Create an implementation of the [`ShippingMethodChooserInterface`] with a `choose()` method that returns a `ShippingMethodInterface` with the following properties:
-   * Returns [`DeferredShippingMethodChooserInterface::CARRIER`] when `getCarrierCode()` is called.
-   * Returns a unique string when `getMethodCode()` is called.
+   *  Returns [`DeferredShippingMethodChooserInterface::CARRIER`] when `getCarrierCode()` is called.
+   *  Returns a unique string when `getMethodCode()` is called.
 
      This string is used as a key to determine the corresponding logic during order placement.
-   * Returns a translated phrase when `getCarrierTitle()` is called.
+   *  Returns a translated phrase when `getCarrierTitle()` is called.
 
      This phrase is shown as the shipping method description in the Instant Purchase confirmation pop-up.
-   * Returns `true` when `getAvailable()` is called.
+   *  Returns `true` when `getAvailable()` is called.
 1. Create an implementation of the [`DeferredShippingMethodChooserInterface`].
    Unlike the `ShippingMethodChooserInterface`, this interface retrieves the [`Quote\Address`] instead of the customer's address, so it has access to the necessary data.
 
@@ -151,9 +148,9 @@ The format of the payment method can also be customized for [specific payments].
 
 A payment method implementation can be integrated with Instant Purchase if it meets the following requirements:
 
-* It implements the [payment provider gateway] mechanism.
-* It implements [vault integration].
-* The payment along with the stored payment token is processed on the server side
+*  It implements the [payment provider gateway] mechanism.
+*  It implements [vault integration].
+*  The payment along with the stored payment token is processed on the server side
 
 The framework for payment method integration is provided in the [`Magento\InstantPurchase\PaymentMethodIntegration`] namespace.
 
@@ -174,12 +171,11 @@ The minimal configuration for Instant Purchase integration development is as fol
       </vault_payment_method_code>
     </payment>
   <default>
-</config>  
+</config>
 ```
 
-<div class="bs-callout bs-callout-warning" markdown="1">
+{: .bs-callout .bs-callout-warning }
 This minimal configuration is to help you get started with Instant Purchase integration development and is not recommended for production sites.
-</div>
 
 The following is an example of a full configuration meant for production:
 
@@ -196,7 +192,7 @@ The following is an example of a full configuration meant for production:
       </vault_payment_method_code>
     </payment>
   <default>
-</config>  
+</config>
 ```
 
 All elements of the integration configuration are optional and have default implementations.
@@ -253,44 +249,44 @@ For these cases, the payment object's [`InfoInterface`] holds an `additional_inf
 Use this marker if no other options are available to implement specific payment logic for the Instant Purchase module.
 
 [Instant Purchase]: http://docs.magento.com/m2/ce/user_guide/sales/checkout-instant-purchase.html
-[Instant Purchase module]: https://github.com/magento/magento2/tree/{{page.guide_version}}-develop/app/code/Magento/InstantPurchase
-[vault]: {{page.baseurl}}payments-integrations/vault/vault-intro.html
+[Instant Purchase module]: https://github.com/magento/magento2/tree/{{ page.guide_version }}/app/code/Magento/InstantPurchase
+[vault]: {{ page.baseurl }}/payments-integrations/vault/vault-intro.html
 [Instant Purchase support]: #payment-method-integration
-[Braintree Credit Cards]: https://github.com/magento/magento2/tree/{{page.guide_version}}-develop/app/code/Magento/Braintree/Model/InstantPurchase/CreditCard
-[Braintree PayPal]: https://github.com/magento/magento2/tree/{{page.guide_version}}-develop/app/code/Magento/Braintree/Model/InstantPurchase/PayPal
-[PayPal Payflow Pro]: https://github.com/magento/magento2/tree/{{page.guide_version}}-develop/app/code/Magento/Paypal/Model/InstantPurchase/Payflow/Pro
+[Braintree Credit Cards]: https://github.com/magento/magento2/tree/{{ page.guide_version }}/app/code/Magento/Braintree/Model/InstantPurchase/CreditCard
+[Braintree PayPal]: https://github.com/magento/magento2/tree/{{ page.guide_version }}/app/code/Magento/Braintree/Model/InstantPurchase/PayPal
+[PayPal Payflow Pro]: https://github.com/magento/magento2/tree/{{ page.guide_version }}/app/code/Magento/Paypal/Model/InstantPurchase/Payflow/Pro
 [module customization]: #customization-points
-[Instant Purchase logic]: #instant-purchase-capability
-[Customer Data cache]: {{page.baseurl}}extension-dev-guide/cache/page-caching/private-content.html
+[Instant Purchase logic]: #instant-purchase-logic
+[Customer Data cache]: {{ page.baseurl }}/extension-dev-guide/cache/page-caching/private-content.html
 [Order placement]: #order-placement
 [Customization Points]: #customization-points
-[plugins]: {{page.baseurl}}extension-dev-guide/plugins.html
-[`PaymentTokenChooserInterface`]: https://github.com/magento/magento2/blob/{{page.guide_version}}-develop/app/code/Magento/InstantPurchase/Model/PaymentMethodChoose/PaymentTokenChooserInterface.php
-[`ShippingAddressChooserInterface`]: https://github.com/magento/magento2/blob/{{page.guide_version}}-develop/app/code/Magento/InstantPurchase/Model/ShippingAddressChoose/ShippingAddressChooserInterface.php
-[`BillingAddressChooserInterface`]: https://github.com/magento/magento2/blob/{{page.guide_version}}-develop/app/code/Magento/InstantPurchase/Model/BillingAddressChoose/BillingAddressChooserInterface.php
-[`ShippingMethodChooserInterface`]: https://github.com/magento/magento2/blob/{{page.guide_version}}-develop/app/code/Magento/InstantPurchase/Model/ShippingMethodChoose/ShippingMethodChooserInterface.php
-[`PaymentTokenInterface`]: https://github.com/magento/magento2/blob/{{page.guide_version}}/app/code/Magento/Vault/Api/Data/PaymentTokenInterface.php
-[`Address`]: https://github.com/magento/magento2/blob/{{page.guide_version}}/app/code/Magento/Customer/Model/Address.php
-[`InstantPurchaseInterface`]: https://github.com/magento/magento2/blob/{{page.guide_version}}-develop/app/code/Magento/InstantPurchase/Model/InstantPurchaseInterface.php
-[`ShippingMethodInterface`]: https://github.com/magento/magento2/blob/{{page.guide_version}}/app/code/Magento/Quote/Api/Data/ShippingMethodInterface.php
-[`InstantPurchaseOption`]: https://github.com/magento/magento2/blob/{{page.guide_version}}-develop/app/code/Magento/InstantPurchase/Model/InstantPurchaseOption.php
-[`InstantPurchaseOptionFactory`]: https://github.com/magento/magento2/blob/{{page.guide_version}}-develop/app/code/Magento/InstantPurchase/Model/InstantPurchaseOptionFactory.php
-[`InstantPurchaseChooser`]: https://github.com/magento/magento2/blob/{{page.guide_version}}-develop/app/code/Magento/InstantPurchase/Model/InstantPurchaseChooser.php
-[`DeferredShippingMethodChooserInterface::CARRIER`]: https://github.com/magento/magento2/blob/{{page.guide_version}}-develop/app/code/Magento/InstantPurchase/Model/ShippingMethodChoose/DeferredShippingMethodChooserInterface.php#L20
-[`DeferredShippingMethodChooserInterface`]: https://github.com/magento/magento2/blob/{{page.guide_version}}-develop/app/code/Magento/InstantPurchase/Model/ShippingMethodChoose/DeferredShippingMethodChooserInterface.php
-[`di.xml`]: {{page.baseurl}}extension-dev-guide/build/di-xml-file.html
-[`PlaceOrder`]: https://github.com/magento/magento2/blob/{{page.guide_version}}-develop/app/code/Magento/InstantPurchase/Model/PlaceOrder.php
-[`Magento\InstantPurchase\Model\QuoteManagement`]: https://github.com/magento/magento2/tree/{{page.guide_version}}-develop/app/code/Magento/InstantPurchase/Model/QuoteManagement
+[plugins]: {{ page.baseurl }}/extension-dev-guide/plugins.html
+[`PaymentTokenChooserInterface`]: {{ site.mage2bloburl }}/{{ page.guide_version }}/app/code/Magento/InstantPurchase/Model/PaymentMethodChoose/PaymentTokenChooserInterface.php
+[`ShippingAddressChooserInterface`]: {{ site.mage2bloburl }}/{{ page.guide_version }}/app/code/Magento/InstantPurchase/Model/ShippingAddressChoose/ShippingAddressChooserInterface.php
+[`BillingAddressChooserInterface`]: {{ site.mage2bloburl }}/{{ page.guide_version }}/app/code/Magento/InstantPurchase/Model/BillingAddressChoose/BillingAddressChooserInterface.php
+[`ShippingMethodChooserInterface`]: {{ site.mage2bloburl }}/{{ page.guide_version }}/app/code/Magento/InstantPurchase/Model/ShippingMethodChoose/ShippingMethodChooserInterface.php
+[`PaymentTokenInterface`]: {{ site.mage2bloburl }}/{{page.guide_version}}/app/code/Magento/Vault/Api/Data/PaymentTokenInterface.php
+[`Address`]: {{ site.mage2bloburl }}/{{page.guide_version}}/app/code/Magento/Customer/Model/Address.php
+[`InstantPurchaseInterface`]: {{ site.mage2bloburl }}/{{ page.guide_version }}/app/code/Magento/InstantPurchase/Model/InstantPurchaseInterface.php
+[`ShippingMethodInterface`]: {{ site.mage2bloburl }}/{{page.guide_version}}/app/code/Magento/Quote/Api/Data/ShippingMethodInterface.php
+[`InstantPurchaseOption`]: {{ site.mage2bloburl }}/{{ page.guide_version }}/app/code/Magento/InstantPurchase/Model/InstantPurchaseOption.php
+[`InstantPurchaseOptionFactory`]: {{ site.mage2bloburl }}/{{ page.guide_version }}/app/code/Magento/InstantPurchase/Model/InstantPurchaseOptionFactory.php
+[`InstantPurchaseChooser`]: {{ site.mage2bloburl }}/{{ page.guide_version }}/app/code/Magento/InstantPurchase/Model/InstantPurchaseChooser.php
+[`DeferredShippingMethodChooserInterface::CARRIER`]: {{ site.mage2bloburl }}/{{ page.guide_version }}/app/code/Magento/InstantPurchase/Model/ShippingMethodChoose/DeferredShippingMethodChooserInterface.php#L20
+[`DeferredShippingMethodChooserInterface`]: {{ site.mage2bloburl }}/{{ page.guide_version }}/app/code/Magento/InstantPurchase/Model/ShippingMethodChoose/DeferredShippingMethodChooserInterface.php
+[`di.xml`]: {{ page.baseurl }}/extension-dev-guide/build/di-xml-file.html
+[`PlaceOrder`]: {{ site.mage2bloburl }}/{{ page.guide_version }}/app/code/Magento/InstantPurchase/Model/PlaceOrder.php
+[`Magento\InstantPurchase\Model\QuoteManagement`]: https://github.com/magento/magento2/tree/{{ page.guide_version }}/app/code/Magento/InstantPurchase/Model/QuoteManagement
 [Payment Method Integration]: #payment-method-integration
-[`Magento\InstantPurchase\Model\Ui`]: https://github.com/magento/magento2/tree/{{page.guide_version}}-develop/app/code/Magento/InstantPurchase/Model/Ui
+[`Magento\InstantPurchase\Model\Ui`]: https://github.com/magento/magento2/tree/{{ page.guide_version }}/app/code/Magento/InstantPurchase/Model/Ui
 [specific payments]: #payment-token-formatter
-[payment provider gateway]: {{page.baseurl}}payments-integrations/bk-payments-integrations.html
-[vault integration]: {{page.baseurl}}payments-integrations/vault/vault-intro.html
-[`Magento\InstantPurchase\PaymentMethodIntegration`]: https://github.com/magento/magento2/tree/{{page.guide_version}}-develop/app/code/Magento/InstantPurchase/PaymentMethodIntegration
-[`AvailabilityCheckerInterface`]: https://github.com/magento/magento2/blob/{{page.guide_version}}-develop/app/code/Magento/InstantPurchase/PaymentMethodIntegration/AvailabilityCheckerInterface.php
+[payment provider gateway]: {{ page.baseurl }}/payments-integrations/bk-payments-integrations.html
+[vault integration]: {{ page.baseurl }}/payments-integrations/vault/vault-intro.html
+[`Magento\InstantPurchase\PaymentMethodIntegration`]: https://github.com/magento/magento2/tree/{{ page.guide_version }}/app/code/Magento/InstantPurchase/PaymentMethodIntegration
+[`AvailabilityCheckerInterface`]: {{ site.mage2bloburl }}/{{ page.guide_version }}/app/code/Magento/InstantPurchase/PaymentMethodIntegration/AvailabilityCheckerInterface.php
 [Vault module]: https://github.com/magento/magento2/tree/{{page.guide_version}}/app/code/Magento/Vault
-[`PaymentTokenFormatterInterface`]: https://github.com/magento/magento2/blob/{{page.guide_version}}-develop/app/code/Magento/InstantPurchase/PaymentMethodIntegration/PaymentTokenFormatterInterface.php
-[`PaymentAdditionalInformationProviderInterface`]: https://github.com/magento/magento2/blob/{{page.guide_version}}-develop/app/code/Magento/InstantPurchase/PaymentMethodIntegration/PaymentAdditionalInformationProviderInterface.php
-[`Quote\Address`]: https://github.com/magento/magento2/blob/{{page.guide_version}}/app/code/Magento/Quote/Model/Quote/Address.php
-[`InfoInterface`]: https://github.com/magento/magento2/blob/{{page.guide_version}}/app/code/Magento/Payment/Model/InfoInterface.php
-[dependency injection]: {{page.baseurl}}extension-dev-guide/depend-inj.html
+[`PaymentTokenFormatterInterface`]: {{ site.mage2bloburl }}/{{ page.guide_version }}/app/code/Magento/InstantPurchase/PaymentMethodIntegration/PaymentTokenFormatterInterface.php
+[`PaymentAdditionalInformationProviderInterface`]: {{ site.mage2bloburl }}/{{ page.guide_version }}/app/code/Magento/InstantPurchase/PaymentMethodIntegration/PaymentAdditionalInformationProviderInterface.php
+[`Quote\Address`]: {{ site.mage2bloburl }}/{{page.guide_version}}/app/code/Magento/Quote/Model/Quote/Address.php
+[`InfoInterface`]: {{ site.mage2bloburl }}/{{page.guide_version}}/app/code/Magento/Payment/Model/InfoInterface.php
+[dependency injection]: {{ page.baseurl }}/extension-dev-guide/depend-inj.html

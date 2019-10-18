@@ -5,7 +5,6 @@ group: "Fundamentals of Magento 2 Development"
 title: "How to Add a JavaScript Module"
 thumbnail: "fundamentals/thumbs/add-js-module.png"
 menu_order: 1
-github_link:
 ---
 
 Magento 2 uses requireJS as a tool to define the module structure.
@@ -17,10 +16,10 @@ It will illustrate how Magento 2 works with JavaScript files, executing the code
 The steps we’ll need to take are:
 
 1. Create a new module.
-2. Create a requirejs-config.js and a JavaScript module file.
-3. Create a layout update to add a template that will enable the JavaScript module.
-4. Create a template file.
-5. Add the module and test it.
+1. Create a requirejs-config.js and a JavaScript module file.
+1. Create a layout update to add a template that will enable the JavaScript module.
+1. Create a template file.
+1. Add the module and test it.
 
 Let’s go through each step.
 
@@ -28,10 +27,16 @@ Let’s go through each step.
 
 We will create a new module called Learning_Js:
 
+```bash
+cd <magento2_root>
 ```
-$ cd <magento2_root>
-$ mkdir app/code/Learning
-$ mkdir app/code/Learning/Js
+
+```bash
+mkdir app/code/Learning
+```
+
+```bash
+mkdir app/code/Learning/Js
 ```
 
 Now create two files:
@@ -40,44 +45,52 @@ Now create two files:
 
 {% collapsible Show source code %}
 
-  {% highlight php startinline=true %}
+```php?start_inline=1
+<?php
 \Magento\Framework\Component\ComponentRegistrar::register(
     \Magento\Framework\Component\ComponentRegistrar::MODULE,
     'Learning_Js',
     __DIR__
 );
-  {% endhighlight %}
+```
 
 {% endcollapsible %}
-
-<br/>
 
 `app/code/Learning/Js/etc/module.xml`
 
 {% collapsible Show source code  %}
-  {%highlight xml %}
+
+```xml
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
     <module name="Learning_Js" setup_version="0.0.1">
     </module>
 </config>
-  {% endhighlight %}
+```
+
 {% endcollapsible %}
 
 ## Step 2: Create a requirejs-config.js and a JavaScript module file
 
 Next, we’ll create a view folder:
 
+```bash
+cd <magento2_root>
 ```
-$ cd <magento2_root>
-$ mkdir app/code/Learning/Js/view
-$ mkdir app/code/Learning/Js/view/fronted
+
+```bash
+mkdir app/code/Learning/Js/view
+```
+
+```bash
+mkdir app/code/Learning/Js/view/frontend
 ```
 
 Add the file `app/code/Learning/Js/view/frontend/requirejs-config.js`:
 
 {% collapsible Show source code %}
-  {% highlight javascript %}
+
+```js
 var config = {
     map: {
         '*': {
@@ -85,20 +98,25 @@ var config = {
         }
     }
 };
-  {% endhighlight %}
+```
+
 {% endcollapsible %}
 
 Then add the JavaScript module:
 
+```bash
+mkdir app/code/Learning/Js/view/frontend/web
 ```
-$ mkdir app/code/Learning/Js/view/frontend/web
-$ mkdir app/code/Learning/Js/view/frontend/web/js
+
+```bash
+mkdir app/code/Learning/Js/view/frontend/web/js
 ```
 
 And finally, add the file `app/code/Learning/Js/view/frontend/web/js/hello.js`:
 
 {% collapsible Show source code %}
-  {% highlight javascript %}
+
+```js
 define([
     "jquery"
 ], function($){
@@ -108,24 +126,31 @@ define([
         }
     }
 )
-  {% endhighlight %}
+```
+
 {% endcollapsible %}
 
 ## Step 3: Create a layout update to add a template that will enable the JavaScript module
 
 First, we need to create the layout folder:
 
+```bash
+cd <magento2_root>
 ```
-$ cd <magento2_root>
-$ mkdir app/code/Learning/Js/view/frontend
-$ mkdir app/code/Learning/Js/view/frontend/layout
+
+```bash
+mkdir app/code/Learning/Js/view/frontend
+```
+
+```bash
+mkdir app/code/Learning/Js/view/frontend/layout
 ```
 
 And the add the file `catalog_product_view.xml`:
 
 {% collapsible Show source code %}
-  {% highlight xml %}
 
+```xml
 <?xml version="1.0"?>
 <page layout="1column" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
@@ -134,27 +159,32 @@ And the add the file `catalog_product_view.xml`:
         </referenceContainer>
     </body>
 </page>
+```
 
-  {% endhighlight %}
 {% endcollapsible %}
 
 ## Step 4: Create a template file
 
 Now, we’ll create the template that will enable JavaScript.
 
+```bash
+cd <magento2_root>
 ```
-$ cd <magento2_root>
-$ mkdir app/code/Learning/Js/view/frontend/templates
+
+```bash
+mkdir app/code/Learning/Js/view/frontend/templates
 ```
 
 In the templates directory, add the file `app/code/Learning/Js/view/frontend/templates/hello.phtml`:
 
 {% collapsible Show source code %}
-  {% highlight html %}
+
+```html
 <div data-mage-init='{"hello": {"message": "HELLO WORLD!"}}'>
     Content
 </div>
-  {% endhighlight %}
+```
+
 {% endcollapsible %}
 
 This code enables our module.
@@ -172,9 +202,16 @@ Other popular options for executing JavaScript code in Magento 2 include applyin
 
 Finally, let’s add our module and test the result.
 
+```bash
+cd <magento2_root>
 ```
-$ cd <magento2_root>
-$ php bin/magento setup:upgrade
+
+```bash
+bin/magento setup:upgrade
+```
+
+```bash
+bin/magento cache:clean
 ```
 
 Now we’ll go to any product view page, and we should see the “HELLO WORLD!” message.

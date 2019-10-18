@@ -1,25 +1,28 @@
 ---
-layout: default
-group: cloud
-subgroup: 130_upgrades
-title: Upgrades and Patches
-menu_title: Upgrades and Patches
-menu_order: 1
-menu_node: parent
-version: 2.2
-github_link: cloud/project/project-upgrade-parent.md
+group: cloud-guide
+title: Upgrades and patches
+functional_areas:
+  - Cloud
+  - Upgrade
 ---
+The Upgrades and patches section contains detailed release notes for the `{{site.data.var.ct}}` package, and information on how to upgrade the `{{site.data.var.ct}}` package, upgrade {{site.data.var.ece}}, and apply custom patches and hotfixes.
 
-The following information helps you upgrade and patch {{site.data.var.ece}}. All of our upgrades and patches are [Composer]({{page.baseurl}}cloud/reference/cloud-composer.html) driven. We recommend using `composer update` for running updates.
+-  [Upgrade project to use the {{site.data.var.ct}} package]({{ page.baseurl }}/cloud/project/ece-tools-upgrade-project.html)
+-  [Update the {{site.data.var.ct}} package]({{ page.baseurl }}/cloud/project/ece-tools-update.html)
+-  [Apply custom patches]({{ page.baseurl }}/cloud/project/project-patch.html)
+-  [Upgrade Magento version]({{ page.baseurl }}/cloud/project/project-upgrade.html)
 
-As part of your normal pushes of code, {{site.data.var.ece}} checks for any pending patches and updates. These instructions walk through the specific steps needed, including preparing, updating, and verifying the upgrade.
+{{site.data.var.ece}} checks for pending patches and updates whenever you push code changes to the remote environment.
 
-What you need:
+Some restrictions in the core {{site.data.var.ee}} code base prevent you from upgrading to the new application architecture directly, so use the following table to determine your upgrade path:
 
-* An active branch on your local to test in your Integration environment. We recommend using a dedicated branch for the upgrades and patches, without additional in-progress extension or code work.
-* Access to the environment and variables if needed
+| Current Version | Upgrade Path |
+| --- | --- |
+| 2.1.3 and earlier | You must upgrade to version 2.1.4 or later before you continue. |
+| 2.1.4 and later | You can begin the upgrade to [{{site.data.var.ct}} 2002.0.9]({{ page.baseurl }}/cloud/release-notes/cloud-tools.html#v200209) and later. |
+| 2.2.x | You can begin the upgrade to [{{site.data.var.ct}} 2002.0.8]({{ page.baseurl }}/cloud/release-notes/cloud-release-archive.html#v200208) and later. |
 
-For detailed instructions:
+{: .bs-callout-info }
+We combined the upgrade metapackages for tools and patches with the release of [{{site.data.var.ct}} version 2002.0.8]({{ site.baseurl }}/guides/v2.2/cloud/release-notes/cloud-release-archive.html#v200208) to simplify the process for future updates.
 
-* [Upgrade Magento Commerce (Cloud)]
-* [Patch Magento Commerce (Cloud)]
+{% include cloud/note-ece-tools-package.md %}

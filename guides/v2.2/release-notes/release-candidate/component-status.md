@@ -1,12 +1,9 @@
 ---
-layout: default
 group: release-notes
 subgroup: 2.2.x_Release_Information
 title: Component Status
 menu_title: Component Status
 menu_order: 6000
-version: 2.2
-github_link: release-notes/release-candidate/component-status.md
 ---
 
 **Last Updated:** November 7, 2017
@@ -15,9 +12,9 @@ This page shows the status of each component for the Magento 2.2.x release and i
 
 Each status color indicates the severity and amount of 2.2-related issues for a particular component.
 
-* <span class="status red">Red</span> - The module has critical and blocking issues that make this module unstable.
-* <span class="status yellow">Yellow</span> - The module has some issues that may cause problems, but it is still functional.
-* <span class="status green">Green</span> - The module has no significant or outstanding issues.
+*  <span class="status red">Red</span> - The module has critical and blocking issues that make this module unstable.
+*  <span class="status yellow">Yellow</span> - The module has some issues that may cause problems, but it is still functional.
+*  <span class="status green">Green</span> - The module has no significant or outstanding issues.
 
 The issues used to generate the status of these components come from verified internal and GitHub reports for Magento 2.2.
 Issues that are not related to the 2.2 release are not part of this report.
@@ -143,7 +140,7 @@ Issues that are not related to the 2.2 release are not part of this report.
 | Module/ Wishlist                       | <span class="status green">Green</span>                   |
 | Tools/ MediaStorage                    | <span class="status green">Green</span>                   |
 
-## Magento Commerce Modules 
+## Magento Commerce Modules
 
 | Name                               | Status                                                    |
 | ---------------------------------- | --------------------------------------------------------- |

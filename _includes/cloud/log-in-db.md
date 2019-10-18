@@ -1,34 +1,41 @@
-<div markdown="1">
- 
-1.  SSH to the integration environment.
+The following steps provide an example of accessing a database:
 
-        magento-cloud ssh
-2.  Find the database login information:
+1. SSH to the integration environment.
 
-        php -r 'print_r(json_decode(base64_decode($_ENV["MAGENTO_CLOUD_RELATIONSHIPS"]))->database);'
+   ```bash
+   magento-cloud ssh
+   ```
 
-    Sample output follows:
+1. Find the database login information:
 
-    <pre class="no-copy">
-    Array
-	   (
-          [0] => stdClass Object
-            (
-               [username] => user
-               [password] =>
-               [ip] => 192.0.2.60
-               [host] => database.internal
-               [query] => stdClass Object
-                  (
-                    [is_master] => 1
-                  )
+   ```bash
+   php -r 'print_r(json_decode(base64_decode($_ENV["MAGENTO_CLOUD_RELATIONSHIPS"]))->database);'
+   ```
 
-               [path] => main
-               [scheme] => mysql
-               [port] => 3306
-            )
-        )</pre>
+   Sample output follows:
 
-3.  Use the following command to connect to the database:
+   ```php
+   Array
+    (
+         [0] => stdClass Object
+           (
+              [username] => user
+              [password] =>
+              [ip] => 192.0.2.60
+              [host] => database.internal
+              [query] => stdClass Object
+                 (
+                   [is_master] => 1
+                 )
+              [path] => main
+              [scheme] => mysql
+              [port] => 3306
+           )
+       )
+   ```
 
-	<pre class="no-copy">mysql --host=&lt;host> --user='&lt;database user name>' --password='&lt;user password>' --port='&lt;port>' --database='&lt;path>'</pre>
+1. Use the following command to connect to the database:
+
+   ```bash
+   mysql --host=<host> --user='<database username>' --password='<user password>' --port='<port>' --database='<path>'
+   ```

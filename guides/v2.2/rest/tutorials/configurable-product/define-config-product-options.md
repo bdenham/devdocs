@@ -1,12 +1,14 @@
 ---
 layout: tutorial
-group: rest
+group: rest-api
 title: Step 4. Define configurable product options
+subtitle: Create a configurable product tutorial
 menu_title: Step 4. Define configurable product options
 menu_order: 40
 level3_subgroup: configurable-product-tutorial
-version: 2.2
-github_link: rest/tutorials/configurable-product/define-config-product-options.md
+return_to:
+  title: REST tutorials
+  url: rest/tutorials/index.html
 functional_areas:
   - Integration
 ---
@@ -25,7 +27,7 @@ The value assigned to the `value_index` must be unique within the system.
 
 **Payload**
 
-``` json
+```json
 {
   "option": {
     "attribute_id": "141",
@@ -51,13 +53,13 @@ The call to link a simple (child) product to the configurable product accepts on
 
 **Endpoint**
 
-`POST <host>/V1/configurable-products/MS-Champ/child`
+`POST <host>/rest/default/V1/configurable-products/MS-Champ/child`
 
 **Payload**
 
-``` json
+```json
 {
-	"childSku": "MS-Champ-S"
+  "childSku": "MS-Champ-S"
 }
 ```
 
@@ -67,15 +69,15 @@ The call to link a simple (child) product to the configurable product accepts on
 
 ## Verify this step
 
-* Log in to the Luma website and select **Catalog > Products**. Click on the **Champ Tee** configurable product and expand the **Configurations** section.
+*  Log in to the Luma website and select **Catalog > Products**. Click on the **Champ Tee** configurable product and expand the **Configurations** section.
 
-![Product page with configurable and simple products]({{page.baseurl}}rest/images/configurations-section.png)
+![Product page with configurable and simple products]({{ page.baseurl }}/rest/images/configurations-section.png)
 
-* On the Luma store front page, search for `Champ`.
+*  On the Luma storefront page, search for `Champ`.
 
-![Search results]({{page.baseurl}}rest/images/search-results.png)
+![Search results]({{ page.baseurl }}/rest/images/search-results.png)
 
-* Call `GET /V1/products/MS-Champ`. The response includes the `configurable_product_options` and `configurable_product_links` arrays.
+*  Call `GET /V1/products/MS-Champ`. The response includes the `configurable_product_options` and `configurable_product_links` arrays.
 
 ```json
 ...

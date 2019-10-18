@@ -1,45 +1,49 @@
-<div markdown="1">
+Use this section to enable Apache 2.2 rewrites and specify a setting for the [distributed configuration file, `.htaccess`](http://httpd.apache.org/docs/current/howto/htaccess.html)
 
-Use this section to enable Apache 2.2 rewrites and specify a setting for the <a href="http://httpd.apache.org/docs/current/howto/htaccess.html" target="_blank">distributed configuration file, <code>.htaccess</code></a>
+Magento uses server rewrites and `.htaccess` to provide directory-level instructions for Apache.
 
-Magento uses server rewrites and <code>.htaccess</code> to provide directory-level instructions for Apache.
+{:.bs-callout .bs-callout-info}
+Failure to enable these settings typically results in no styles displaying on your storefront or Admin.
 
-<div class="bs-callout bs-callout-info" id="info">
-	<span class="glyphicon-class">
-	<p>Failure to enable these settings typically results in no styles displaying on your storefront or Admin.</p></span>
-</div>
+1. Open the following file for editing.
 
-1.	Open the following file for editing.
+   *  Ubuntu: `vim /etc/apache2/sites-available/default`
+   *  CentOS: `vim /etc/httpd/conf/httpd.conf`
 
-	*	Ubuntu: <code>vim /etc/apache2/sites-available/default</code>
-	*	CentOS: <code>vim /etc/httpd/conf/httpd.conf</code>
+1. Locate the block that starts with:
 
-2.	Locate the block that starts with:
+   *  Ubuntu 12: `<Directory /var/www/>`
+   *  Ubuntu 14 or CentOS: `<Directory /var/www/html>`
 
-	*	Ubuntu 12: `<Directory /var/www/>`
-	*	Ubuntu 14 or CentOS: `<Directory /var/www/html>`
+1. Change the value of `AllowOverride` to `<value from Apache site>`.
 
-3.	Change the value of `AllowOverride` to `<value from Apache site>`.
+   An example for Ubuntu 12 follows.
 
-	An example for Ubuntu 12 follows.
+   ```conf
+   <Directory /var/www/>
+   Options Indexes FollowSymLinks MultiViews
+   AllowOverride <value from Apache site>
+   Order allow,deny
+   Allow from all
+   <Directory>
+   ```
 
-		<Directory /var/www/>
-		Options Indexes FollowSymLinks MultiViews
-		AllowOverride <value from Apache site>
-		Order allow,deny
-		Allow from all
-		<Directory>
+   {:.bs-callout .bs-callout-info}
+   The preceding values for `Order` might not work in all cases. For more information, see the Apache documentation ([2.2](https://httpd.apache.org/docs/2.2/mod/mod_authz_host.html#order)), [2.4](https://httpd.apache.org/docs/2.4/mod/mod_authz_host.html#order)).
 
-	<div class="bs-callout bs-callout-info" id="info">
-		<span class="glyphicon-class">
-		<p>The preceding values for <code>Order</code> might not work in all cases. For more information, see the Apache documentation (<a href="https://httpd.apache.org/docs/2.2/mod/mod_authz_host.html#order" target="_blank">2.2</a>, <a href="https://httpd.apache.org/docs/2.4/mod/mod_authz_host.html#order" target="_blank">2.4</a>).</p></span>
-	</div>
+1. Save the file and exit the text editor.
+1. *Ubuntu only*. Configure Apache to use the `mod_rewrite` module.
 
-4.	Save the file and exit the text editor.
-5.	*Ubuntu only*. Configure Apache to use the `mod_rewrite` module.
+   ```bash
+   cd /etc/apache2/mods-enabled
+   ```
 
-			cd /etc/apache2/mods-enabled
-			ln -s ../mods-available/rewrite.load
-6.	If you changed Apache settings, restart Apache.
+   ```bash
+   ln -s ../mods-available/rewrite.load
+   ```
 
-		service apache2 restart
+1. If you changed Apache settings, restart Apache.
+
+   ```bash
+   service apache2 restart
+   ```

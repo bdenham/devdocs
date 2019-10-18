@@ -1,1 +1,1 @@
-../../../v2.0/cloud/configure/setup-cron-jobs.md
+../../../../guides/v2.2/cloud/configure/setup-cron-jobs.md
